@@ -17,6 +17,34 @@ class Glass:
         conn.commit()
         self.id = cursor.lastrowid
         print(f"{self.name} saved")
+    
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name":self.name
+
+        }
+    
+    @classmethod
+    def find_all(cls):
+        sql = f"""
+            SELECT * FROM {cls.TABLE_NAME}
+        """
+        rows = cursor.execute(sql).fetchall()
+
+        return [
+            cls.row_to_instance(row).to_dict() for row in rows
+        ]
+    
+    @classmethod
+    def row_to_instance(cls, row):
+        if row == None:
+            return None
+        
+        glass = cls(row[1])
+        glass.id = row[0]
+
+        return glass
 
     @classmethod
     def drop_table(cls):
@@ -41,6 +69,7 @@ class Glass:
 
 Glass.drop_table()
 Glass.create_table()
+
 
 glasses = [
     "Large Round Circle Frame", "Small Round Circle Frame", "Retro Round Sunglasses", 
