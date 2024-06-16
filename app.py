@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-
+from models.order import Glass
 app = FastAPI()
 
 class OrderModel(BaseModel):
