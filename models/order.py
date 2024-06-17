@@ -123,5 +123,6 @@ class Order:
         conn.commit()
         print(f"Table {cls.TABLE_NAME} created")
 
-# Initialize the database table
+
 Order.create_table()
+
