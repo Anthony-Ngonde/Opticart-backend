@@ -83,3 +83,45 @@ glasses = [
 for name in glasses:
     glass = Glass(name)
     glass.save()
+
+
+
+class Order:
+    TABLE_NAME = 'orders'
+
+    def __init__(self, name, email, address, item_purchased, total_price):
+        self.id = None
+        self.name = name
+        self.email = email
+        self.address = address
+        self.item_purchased = item_purchased
+        self.total_price = total_price
+
+    def save(self):
+        sql = f"""
+        INSERT INTO {self.TABLE_NAME} (name, email, address, item_purchased, total_price)
+        VALUES (?, ?, ?, ?, ?)
+        """
+        cursor.execute(sql, (self.name, self.email, self.address, self.item_purchased, self.total_price))
+        conn.commit()
+        self.id = cursor.lastrowid
+        print(f"Order {self.id} saved")
+
+    @classmethod
+    def create_table(cls):
+        sql = f"""
+        CREATE TABLE IF NOT EXISTS {cls.TABLE_NAME} (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            email TEXT NOT NULL,
+            address TEXT NOT NULL,
+            item_purchased TEXT NOT NULL,
+            total_price REAL NOT NULL
+        )
+        """
+        cursor.execute(sql)
+        conn.commit()
+        print(f"Table {cls.TABLE_NAME} created")
+
+# Initialize the database table
+Order.create_table()

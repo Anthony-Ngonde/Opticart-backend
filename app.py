@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from models.order import Glass
+from models.order import Order
+
 
 app = FastAPI()
 
